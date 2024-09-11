@@ -47,17 +47,25 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
-            .then(json => {
-                spinner.style.display = "none"; // Hide spinner
-                apiMessage.textContent = "Login successful!";
-                apiMessage.style.color = "green";
-            })
-            .catch(() => {
-                spinner.style.display = "none"; // Hide spinner
-                apiMessage.textContent = "Login failed. Please try again.";
-                apiMessage.style.color = "red";
-            });
+        .then(response => {
+            // Check if response is successful
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(json => {
+            console.log(json);  // Log the response data to the console
+            spinner.style.display = "none"; // Hide spinner
+            apiMessage.textContent = "Login successful!";
+            apiMessage.style.color = "green";
+        })
+        .catch(error => {
+            console.error("Error in fetching data:", error); // Log the error to the console
+            spinner.style.display = "none"; // Hide spinner
+            apiMessage.textContent = "Login failed. Please try again.";
+            apiMessage.style.color = "red";
+        });
     }
 });
 
@@ -70,11 +78,7 @@ function validateEmail(email) {
 // Show/Hide password functionality
 document.getElementById("showPassword").addEventListener("change", function () {
     const passwordField = document.getElementById("password");
-    if (this.checked) {
-        passwordField.type = "text";
-    } else {
-        passwordField.type = "password";
-    }
+    passwordField.type = this.checked ? "text" : "password";
 });
 
 // Populate remembered username
