@@ -1,4 +1,4 @@
-/* General Styles */
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -6,158 +6,98 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #a2c2e5, #1e3a8a);
+    background-color: #e6f0ff; /* Light blue background */
 }
 
-/* Container Styles */
-.container {
-    width: 100%;
-    max-width: 360px;
-    background: #ffffff;
-    padding: 20px;
+/* Container for the login form */
+.login-container {
+    background-color: white;
+    padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
 }
 
-/* Heading Styles */
-h1 {
-    margin: 0;
-    margin-bottom: 20px;
-    font-size: 28px;
-    color: #1e3a8a;
+/* Header styling */
+h2 {
     text-align: center;
-    background: linear-gradient(45deg, #3b82f6, #1d4ed8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+    color: #00509e; /* Dark blue text */
 }
 
-/* Input Group Styles */
-.input-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-/* Label Styles */
+/* Label and input styling */
 label {
     display: block;
     margin-bottom: 8px;
-    font-size: 14px;
-    color: #1e3a8a;
+    color: #003f7f; /* Medium blue text */
 }
 
-/* Input Styles */
 input {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #3b82f6;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 14px;
-    color: #1e3a8a;
-    background-color: #f0f9ff;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #99c2ff; /* Light blue border */
+    border-radius: 4px;
+    background-color: #f0f8ff; /* Very light blue background */
+    color: #003f7f; /* Medium blue text */
 }
 
-input:focus {
-    border-color: #1d4ed8;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
-}
-
-/* Password Container Styles */
-.password-container {
-    position: relative;
-}
-
-#togglePassword {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: #1e3a8a;
-}
-
-/* Button Styles */
+/* Button styling */
 button {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
+    background-color: #0073e6; /* Primary blue color for button */
     border: none;
-    border-radius: 8px;
-    background: linear-gradient(45deg, #3b82f6, #1d4ed8);
-    color: #ffffff;
-    font-size: 16px;
+    color: white;
+    font-size: 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
-    background: linear-gradient(45deg, #1d4ed8, #3b82f6);
-    transform: translateY(-2px);
+    background-color: #005bb5; /* Darker blue on hover */
 }
 
-button:active {
-    transform: translateY(1px);
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    display: none;
 }
 
-/* Remember Me Styles */
-input[type="checkbox"] {
-    margin-right: 10px;
+/* Responsive form adjustments for smaller screens */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 1rem;
+    }
 }
 
-/* Spinner Styles */
+/* Checkbox group alignment */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Spinner (loading animation) styling */
 .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3b82f6;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #0073e6; /* Primary blue for spinner */
     border-radius: 50%;
     width: 24px;
     height: 24px;
     animation: spin 1s linear infinite;
-    margin: 10px auto;
+    margin: 0 auto;
 }
 
-/* Spinner Animation */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-/* Error Message Styles */
-.error {
-    color: #f87171;
-    font-size: 12px;
-    margin-top: 4px;
-}
-
-/* Success/Info Message Styles */
-#message {
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
-    color: #34d399;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .container {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 400px) {
-    h1 {
-        font-size: 22px;
-    }
-
-    button {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    input {
-        font-size: 14px;
-    }
 }

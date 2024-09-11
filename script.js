@@ -1,67 +1,87 @@
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form submission
 
-    // Clear previous errors
-    document.getElementById('usernameError').textContent = '';
-    document.getElementById('passwordError').textContent = '';
-    document.getElementById('message').textContent = '';
-
-    // Show spinner
-    document.getElementById('spinner').style.display = 'block';
-
-    // Get form values
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
+    const email = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const apiMessage = document.getElementById("apiMessage");
+    const spinner = document.getElementById("spinner");
 
     let isValid = true;
 
-    // Username validation
-    if (!username || !validateEmail(username)) {
-        document.getElementById('usernameError').textContent = 'Please enter a valid email.';
+    // Email validation
+    if (!validateEmail(email)) {
+        emailError.textContent = "Please enter a valid email.";
+        emailError.style.display = "block";
         isValid = false;
+    } else {
+        emailError.style.display = "none";
     }
 
     // Password validation
-    if (!password || password.length < 6) {
-        document.getElementById('passwordError').textContent = 'Password must be at least 6 characters.';
+    if (password.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters long.";
+        passwordError.style.display = "block";
         isValid = false;
+    } else {
+        passwordError.style.display = "none";
     }
 
+    // If form is valid, make API call
     if (isValid) {
-        // Make API request
-        fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
+        const data = { username: email, password: password };
+        spinner.style.display = "block"; // Show spinner
+        apiMessage.textContent = ""; // Clear previous messages
+
+        // Remember me functionality
+        const rememberMe = document.getElementById("rememberMe").checked;
+        if (rememberMe) {
+            localStorage.setItem("username", email); // Store username in local storage
+        } else {
+            localStorage.removeItem("username");
+        }
+
+        fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
         })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('message').textContent = 'Login successful!';
-        })
-        .catch(error => {
-            document.getElementById('message').textContent = 'Login failed. Please try again.';
-        })
-        .finally(() => {
-            // Hide spinner
-            document.getElementById('spinner').style.display = 'none';
-        });
-    } else {
-        // Hide spinner
-        document.getElementById('spinner').style.display = 'none';
+            .then(response => response.json())
+            .then(json => {
+                spinner.style.display = "none"; // Hide spinner
+                apiMessage.textContent = "Login successful!";
+                apiMessage.style.color = "green";
+            })
+            .catch(() => {
+                spinner.style.display = "none"; // Hide spinner
+                apiMessage.textContent = "Login failed. Please try again.";
+                apiMessage.style.color = "red";
+            });
     }
 });
 
+// Email validation function
 function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+    return re.test(String(email).toLowerCase());
 }
 
-// Show/Hide Password
-document.getElementById('togglePassword').addEventListener('click', function() {
-    const passwordField = document.getElementById('password');
-    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordField.setAttribute('type', type);
-    this.textContent = type === 'password' ? '👁️' : '🙈';
+// Show/Hide password functionality
+document.getElementById("showPassword").addEventListener("change", function () {
+    const passwordField = document.getElementById("password");
+    if (this.checked) {
+        passwordField.type = "text";
+    } else {
+        passwordField.type = "password";
+    }
+});
+
+// Populate remembered username
+window.addEventListener("load", function () {
+    const rememberedUsername = localStorage.getItem("username");
+    if (rememberedUsername) {
+        document.getElementById("username").value = rememberedUsername;
+        document.getElementById("rememberMe").checked = true;
+    }
 });
